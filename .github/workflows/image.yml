@@ -1,6 +1,6 @@
 on:
 
-
+  push:
 jobs:
 
   build_and_push:
@@ -9,6 +9,6 @@ jobs:
       dockerfile: ./.docker/Dockerfile   #optional - path to dockerfile - default "Dockerfile"
       #context: .      #optional - default "."
       target: production         #optional
-      tags: ghcr.io/mopped-hackers/hk23-fe
+      tags: ghcr.io/mopped-hackers/fe-hk23
     secrets:
       access_token: ${{ secrets.GITHUB_TOKEN }}
