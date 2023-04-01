@@ -7,11 +7,12 @@ function Sidebar(props) {
     const [active,setActive] = useState("search")
     return (
         <div className="sidebar">
-
-            <div className="tab_switches">
-                <div onClick={()=>setActive("vehicle")}>Vehicle</div>
-                <div onClick={()=>setActive("search")}>Search</div>
-                <div onClick={()=>setActive("categories")}>Categories</div>
+            <div className='tab_switches_wrapper'>
+                <div className="tab_switches">
+                    <div onClick={()=>setActive("vehicle")}>Vehicle</div>
+                    <div onClick={()=>setActive("search")}>Search</div>
+                    <div onClick={()=>setActive("categories")}>Categories</div>
+                </div>
             </div>
 
             <div className="tabs">
@@ -23,7 +24,7 @@ function Sidebar(props) {
                 </RenderCondition>
                 <RenderCondition condition={active === "search"}>
                     <div className="search">
-                        <div className="searchbar">
+                        <div className="searchbar, center">
                             <input type="text" name="Placeholder"/>
                         </div>
                         <div className="content">
@@ -44,6 +45,6 @@ function Sidebar(props) {
             </div>
         </div>
     );
-}
+    }
 
 export default Sidebar;

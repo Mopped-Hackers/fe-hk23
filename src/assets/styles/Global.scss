@@ -29,7 +29,11 @@ body{
   font-family: "Inter", Arial, sans-serif;
 }
 
-
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* MAIN WRAPPER */
 
@@ -144,14 +148,16 @@ body{
 /* NAVIGATION */
 
 .sidebar {
-  padding: 5%;
+  padding: 0% 5%;
 }
+
 .tab_switches_wrapper {
   margin: -5% -5% 0% -5%;
 }
+
 .tab_switches {
   background-color: #263F45;
-  //padding: 10%;
+  padding: 10%;
   //margin-top: -5%;
   display: flex;
   width: 100%;
@@ -166,8 +172,44 @@ body{
   flex-direction: column;
 }
 .searchbar {
-  margin: auto;
+  margin: 7% auto;
+  width: 100%;
 }
 
+.search input {
+  margin: 7% auto;
+  height: 2.5vw;
+  width: 100%;
+  border-radius: 12px;
+  border-width: 1px;
+}
 
+.options button {
+  position: absolute;
+  z-index: 999;
+}
+
+.content .card {
+  margin-bottom: 1vw;
+  border-radius: 1vw;
+  h1 {
+    font-size: 1.2vw;
+  }
+  .card_content_wapper {
+    margin: 1vw 1.5vw;
+  }
+  .card_metrics {
+    display: flex;
+    p {
+      margin-top: -0.4vw;
+    }
+    .dis_dur_wrapper {
+      padding-right: 1vw;
+      margin-top: 0.5vw;
+      img {
+        padding-right: 0.7vw;
+      }
+    }
+  }
+}
 
