@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+
+  app:
+    container_name: app
+    image: rpwa/app
+    build:
+      context: .
+      target: development
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - ./:/var/www
+      - ./var/www/node_modules
+    ports:
+      - "3000:3000"

@@ -1,0 +1,14 @@
+on:
+
+
+jobs:
+
+  build_and_push:
+    uses: andrejvysny/workflows/.github/workflows/docker_build_push_ghcr.yaml@main
+    with:
+      dockerfile: ./.docker/Dockerfile   #optional - path to dockerfile - default "Dockerfile"
+      #context: .      #optional - default "."
+      target: production         #optional
+      tags: ghcr.io/mopped-hackers/hk23-fe
+    secrets:
+      access_token: ${{ secrets.GITHUB_TOKEN }}

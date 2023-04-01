@@ -1,0 +1,19 @@
+@import "../variables";
+
+.btn{
+  box-shadow: none;
+
+  &:active,&:focus,&.active{
+    box-shadow: none;
+  }
+  border-radius: 10px;
+  transition: all .2s;
+}
+
+
+.btn.btn-primary{
+  background-color: $primary;
+  border-color: $primary;
+  color: $dark_bg;
+}
+

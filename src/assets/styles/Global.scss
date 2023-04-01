@@ -1,0 +1,139 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "react-toastify/dist/ReactToastify.min.css";
+@import "./global/includes/toasts";
+@import "./global/includes/animations";
+@import "./global/includes/buttons";
+@import "./global/includes/cards";
+@import "./global/includes/forms";
+@import "./Layout";
+
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+p{margin: 0;}
+a{
+  text-decoration: none;
+}
+
+body{
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", Roboto, Helvetica, Arial, sans-serif;
+}
+
+
+
+/* MAIN WRAPPER */
+
+#wrapper{
+  min-height: 100vh;
+}
+
+.container{
+  padding: 0;
+}
+
+/* DIMENSIONS */
+
+.h-100vh{
+  height: 100vh;
+}
+.h-90vh{
+  height: 90vh;
+}
+.h-70vh{
+  height: 70vh;
+}
+.h-50vh{
+  height: 50vh;
+}
+.max-w-100{
+  max-width: 100% !important;
+}
+.max-w-90{
+  max-width: 90% !important;
+}
+
+.max-h-90vh{
+  max-height: 90vh !important;
+}
+
+
+
+/* POSITION */
+.left-0{
+  left: 0 !important;
+}
+.z-index-9999{
+  z-index: 9999;
+}
+.z-index-9998{
+  z-index: 9998;
+}
+
+/* FONTS */
+
+.fonts_size_1rem{
+  font-size: 1rem;
+}
+.fonts_size_1_5rem{
+  font-size: 1.5rem;
+}
+.fonts_size_2rem{
+  font-size: 2rem;
+}
+.fonts_size_3rem{
+  font-size: 3rem;
+}
+.fonts_size_4rem{
+  font-size: 4rem;
+}
+.fonts_size_5rem{
+  font-size: 5rem;
+}
+.fonts_size_6rem{
+  font-size: 6rem;
+}
+.fonts_size_7rem{
+  font-size: 6rem;
+}
+
+.fonts_Sriracha{
+  font-family: "Sriracha",cursive;
+}
+.fonts_Montserrat{
+  font-family: "Montserrat",Helvetica,sans-serif;
+}
+
+
+/* OTHER */
+
+.pointer-events-auto{
+  pointer-events: auto !important;
+}
+
+.pointer-events-none{
+  pointer-events: none !important;
+}
+
+.cursor-pointer{
+  cursor: pointer !important;
+}
+
+
+.white-space-nowrap{
+  white-space: nowrap;
+}
+
+
+/* SCROLL */
+.scroll-x {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+

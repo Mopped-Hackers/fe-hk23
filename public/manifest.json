@@ -1,0 +1,14 @@
+{
+	"short_name": "RPWA",
+	"name": "RPWA",
+	"description": "React PWA Template",
+	"start_url": "/?source=pwa",
+	"display": "standalone",
+	"theme_color": "#eeeeee",
+	"background_color": "#111111",
+	"orientation": "portrait",
+
+	"icons": [
+
+	]
+}
