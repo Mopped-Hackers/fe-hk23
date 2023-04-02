@@ -5,11 +5,11 @@ import Divider from "./Divider";
 import RenderCondition from "../../core/helpers/RenderCondition";
 import CardMissing from "./CardMissing";
 import axios from "axios";
+import Categories from "./Categories";
 
 function Sidebar({cards, missing,setCards,setMissing}) {
 
     const [active,setActive] = useState("search")
-    const [categories,setCategories] = useState([])
 
     const name = point=>{
         if (!point?.properties?.name){
@@ -22,27 +22,9 @@ function Sidebar({cards, missing,setCards,setMissing}) {
         return point?.properties?.name.trim() ?? "No name";
     }
 
-    const searchCat = ()=>{
 
-    }
-
-
-    useEffect(()=>{
-        axios.get("http://vps.andrejvysny.sk:8000/geom/categories").then(r=>{
-            setCategories(r.data);
-            console.log(r);
-        })
-    },[]);
     return (
         <div className="sidebar">
-            <div className='tab_switches_wrapper'>
-                <div className="tab_switches">
-                    <div onClick={()=>setActive("vehicle")}>Vehicle</div>
-                    <div onClick={()=>setActive("search")}>Search</div>
-                    <div onClick={()=>setActive("categories")}>Categories</div>
-                </div>
-            </div>
-
             <div className="tabs">
 
                 <RenderCondition condition={active === "vehicle"}>
@@ -61,13 +43,8 @@ function Sidebar({cards, missing,setCards,setMissing}) {
                 </RenderCondition>
 
                <RenderCondition condition={active === "categories"}>
-                   <div className="categories">
-                        <div className='categorieSlider'>
 
-                            {categories.map(cat=><div className='category center'><p>{cat}</p></div>)}
-
-                        </div>
-                   </div>
+                   <Categories/>
 
                </RenderCondition>
 

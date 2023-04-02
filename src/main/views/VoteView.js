@@ -10,6 +10,7 @@ import RenderCondition from "../../core/helpers/RenderCondition";
 import {Link} from "react-router-dom";
 import Arrow from "/src/assets/icons/arrow.svg"
 import Thumb from "/src/assets/icons/thumb.svg"
+import Nav from "../components/Nav";
 
 
 
@@ -18,6 +19,9 @@ export default function VoteView() {
     const {map_css, sidebar_css} = styles();
     const [markers,setMarkers] = useState(null);
     const [data,setData] = useState(null)
+
+    const [yes,setYes] =useState(0);
+    const [no,setNo] =useState(0);
 
     const [currentPoint, setCurrentPoint] = useState(null);
 
@@ -42,6 +46,13 @@ export default function VoteView() {
 
 
     const click = point =>{
+
+        if (point?.properties?.fid){
+            axios.get("http://vps.andrejvysny.sk:8000/geom/score/" + point.properties.fid).then(r=>{
+                console.log(r);
+            });
+        }
+
         setCurrentPoint(point);
         console.log(point);
     }
@@ -58,20 +69,17 @@ export default function VoteView() {
                     initialViewState={{
                         longitude: 21.25808,
                         latitude: 48.71395,
-                        zoom: 14
+                        zoom: 13
                     }}
                 >
                     {markers}
                 </Map>
             </div>
             <div className="vote_bar">
+                <Nav/>
             <div className="content">
 
-            <div className='tab_switches_wrapper'>
-                <div className="tab_switches">
-                  <div className='back'><Link className="link" to={routes.home}><img src={Arrow}></img>Go back to default screen</Link></div> 
-                </div>
-            </div>
+
                 <div className='tab_switches_wrapper'> </div>
                             <div className='in_fifteen_wrapper'>
                             <RenderCondition condition={currentPoint !== null}>
@@ -86,6 +94,9 @@ export default function VoteView() {
                                     <div className="no center btn"><img className="thumbRotate"src={Thumb}></img>I disagree</div>
                                 </div>
                             </RenderCondition>
+                                <RenderCondition condition={currentPoint === null}>
+                                    <h2>Choose some point on map!</h2>
+                                </RenderCondition>
                             </div>
                     </div>
                 
