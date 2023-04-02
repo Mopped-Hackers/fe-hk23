@@ -212,10 +212,11 @@ export default function NewView() {
             <div css={sidebar_css}>
 
                 <Nav/>
-
-                <button className="btn btn-primary" onClick={()=>buildAction()}>Auto build</button>
+                <div className='optionsNew'>
+                <button className="btn btn-primary" onClick={()=>buildAction()}>Automatic build</button>
                 <button className="btn btn-primary" onClick={()=>{clear();setManual(m=>!m)}}>Manual build</button>
                 <button className="btn btn-primary" onClick={()=>heatmapShow()}>Heatmap</button>
+                </div>
 
                 <RenderCondition condition={manual}>
 
@@ -239,8 +240,10 @@ export default function NewView() {
                 </RenderCondition>
 
                 <RenderCondition condition={build.length > 0 && !manual}>
-                    <button className="btn btn-warning" onClick={()=>clear()}>Clear</button>
-                    <button className="btn btn-success" onClick={()=>saveBuild()}>Save</button>
+                    <div className='warningSuccess'>
+                        <button className="btn btn-warning" onClick={()=>clear()}>Clear</button>
+                        <button className="btn btn-success" onClick={()=>saveBuild()}>Save</button>
+                    </div>
                 </RenderCondition>
             </div>
         </>
