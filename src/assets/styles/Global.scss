@@ -174,7 +174,9 @@ body{
   height: 5.5vw;
   justify-content: space-between;
   margin: auto;
-  color: #BABABA;
+  a {
+    color: #BABABA;
+  }
 }
 
 /* SEARCH */
@@ -372,3 +374,35 @@ body{
   }
 }
 
+.optionsNew {
+  display: flex;
+  flex-direction: column;
+  button {
+    display: block;
+  }
+  .btn {
+    margin: auto;
+    margin-bottom: 1vw;
+    width: 90%;
+  }
+}
+
+.manual_form {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  input, select{
+    margin-bottom: 1vw
+  }
+}
+
+.warningSuccess {
+  justify-content: center;
+  display: flex;
+  .btn {
+    margin: 0vw;
+  }
+  .btn-warning {
+    margin-right: 1vw;
+  }
+}
