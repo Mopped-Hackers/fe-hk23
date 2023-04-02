@@ -105,24 +105,22 @@ export default function VoteView() {
             <div className="vote_bar">
                 <div className="content">
 
-                    <div className='tab_switches_wrapper'>
-                        <div className="tab_switches">
-                            <div className='back'><Link className="link" to={routes.home}><img src={Arrow}></img>Go back to default screen</Link></div>
-                        </div>
-                    </div>
+                    <Nav/>
                     <div className='tab_switches_wrapper'> </div>
                     <div className='in_fifteen_wrapper'>
                         <RenderCondition condition={currentPoint !== null}>
-                            <a target="_blank"
-                                href={"https://www.google.com/maps/place/" + currentPoint?.geometry.coordinates[1] + ',' + currentPoint?.geometry.coordinates[0]}
-                            >
-                                <i className="fab pe-2 fa-google" />
+
+
                                 <h1 className='votingName'>
                                     {currentPoint?.properties.name}
                                 </h1>
                                 <p className='votingAdress'>{currentPoint?.properties.addressline}</p>
-                            </a>
 
+                            <div className="d-block">
+                            <a target="_blank" href={"https://www.google.com/maps/place/" + currentPoint?.geometry.coordinates[1] + ',' + currentPoint?.geometry.coordinates[0]}>
+                                Google Maps
+                            </a>
+                            </div>
                             <p className="votingCoordinates">%Impact - {impact.toFixed(2)}%</p>
                             <p className="votingInfo">Poloha - {currentPoint?.geometry.coordinates.toString()}</p>
 

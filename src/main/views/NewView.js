@@ -24,6 +24,10 @@ export default function NewView() {
     const [lat,setLat] = useState(null);
 
 
+    const [hospitals,setHospitals] = useState(0);
+    const [jobs,setJobs] = useState(0);
+    const [schools,setSchools] = useState(0);
+
     const [categories,setCategories] = useState([])
 
     useEffect(()=>{
@@ -116,12 +120,12 @@ export default function NewView() {
             }
 
             axios.post("http://vps.andrejvysny.sk:8000/geom/add",obj).then(r=>{
-
+                console.log(point);
             });
 
-            console.log(point);
-            //axios.post()
         })
+        clear();
+        window.location.reload();
 
     }
     const buildAction=()=>{
@@ -132,15 +136,15 @@ export default function NewView() {
             "aminity" : [
                 {
                     "name" : "School",
-                    "count" : 2
+                    "count" : schools
                 },
                 {
                     "name" : "Hospital",
-                    "count" : 2
+                    "count" : hospitals
                 },
                 {
-                    "name" : "Drug store",
-                    "count" : 2
+                    "name" : "Job",
+                    "count" : jobs
                 }
             ],
             "radius" : 11
@@ -233,30 +237,44 @@ export default function NewView() {
             <div css={sidebar_css}>
 
                 <Nav/>
-                <div className='optionsNew'>
-                <button className="btn btn-primary" onClick={()=>buildAction()}>Automatic build</button>
-                <button className="btn btn-primary" onClick={()=>{clear();setManual(m=>!m)}}>Manual build</button>
-                <button className="btn btn-primary" onClick={()=>heatmapShow()}>Heatmap</button>
+
+                <div className="center">
+                    <h4>Automatic generation</h4>
+                </div>
+                <div className="d-flex align-items-center px-5">
+                    <label className="pe-3">Hospitals:</label>
+                    <input type="number" value={hospitals} onChange={e=>setHospitals(e.target.value)} className="form-control"/>
+                </div>
+
+                <div className="d-flex align-items-center px-5">
+                    <label className="pe-3">Jobs:</label>
+                    <input type="number" value={jobs} onChange={e=>setJobs(e.target.value)} className="form-control"/>
+                </div>
+
+                <div className="d-flex align-items-center px-5">
+                    <label className="pe-3">Schools:</label>
+                    <input type="number" value={schools} onChange={e=>setSchools(e.target.value)} className="form-control"/>
+                </div>
+
+                <div className='optionsNew mt-3'>
+                    <button className="btn btn-primary" onClick={()=>buildAction()}>Automatic build</button>
+                    <button className="btn btn-primary" onClick={()=>{clear();setManual(m=>!m)}}>Manual build</button>
+                    <button className="btn btn-primary" onClick={()=>heatmapShow()}>Heatmap</button>
                 </div>
 
                 <RenderCondition condition={manual}>
 
                     <form className="manual_form" onSubmit={e=>handleForm(e)}>
-
-
-                        <input type="text" placeholder="Name" name="fid"/>
-
-                        <select name="aminity">
+                        <input type="text" className="form-control" placeholder="Name" name="fid"/>
+                        <select name="aminity" className="form-control">
                             {categories.map(cat=><option key={cat} value={cat}>{cat}</option>)}
                         </select>
 
-
-                        <div>Lng: {lng}</div>
-                        <div>Lat: {lat}</div>
+                        <div className="mb-2">Lng: {lng}</div>
+                        <div className="mb-3">Lat: {lat}</div>
 
                         <button className="btn btn-warning" onClick={e=>{e.preventDefault();clear()}}>Clear</button>
                         <button className="btn btn-success" type="submit">Save</button>
-
                     </form>
                 </RenderCondition>
 
