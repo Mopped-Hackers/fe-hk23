@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {css} from "@emotion/react";
 import config, {theme} from "../../config";
-import {getData} from "../routes";
 import Map, {Layer, Marker, Source} from "react-map-gl";
 import * as turf from "@turf/turf";
 import Sidebar from "../components/Sidebar";
-import RenderCondition from "../../core/helpers/RenderCondition";
 import axios from "axios";
-import Card from "../components/Card";
+import RenderCondition from "../../core/helpers/RenderCondition";
 
 
 export default function HomeView() {
@@ -15,9 +13,23 @@ export default function HomeView() {
     const [marker,setMarker] = useState(null);
     const [searchedCards,setSearchedCards] = useState(null);
     const [missingSearched,setMissingSearched] = useState(null);
+    const [all,setAll] = useState(null);
     const [heatmap, setHeatmap] = useState('none');
     const {map_css, sidebar_css} = styles();
-
+    const layerPlacesSearch = {
+        'id': 'places',
+        'type': 'circle',
+        'source': 'points',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-color': ['get','color'],
+            'circle-stroke-color': 'black',
+            'circle-stroke-width': 3,
+            'circle-radius': 8
+        }
+    };
     const layerPlaces = {
         'id': 'places',
         'type': 'circle',
@@ -26,10 +38,10 @@ export default function HomeView() {
             'visibility': 'visible'
         },
         'paint': {
-            'circle-color': 'rgb(0,0,0)',
+            'circle-color': 'rgba(0,0,0,0.8)',
             'circle-stroke-color': 'white',
-            'circle-stroke-width': 3,
-            'circle-radius': 8
+            'circle-stroke-width': 1,
+            'circle-radius': 4
         }
     };
 
@@ -61,18 +73,16 @@ export default function HomeView() {
             setHeatmap('none');
         }
     }
-    const click = e=>{
-
-
+    const search = (lng,lat)=>{
 
         const data = {
             "type": "FeatureCollection",
             "features": [
-                turf.circle([e.lngLat.lng,e.lngLat.lat], 1300, { steps: 50, units: "meters" })
+                turf.circle([lng,lat], 1100, { steps: 50, units: "meters" })
             ]
         }
 
-        axios.get(`http://vps.andrejvysny.sk:8000/geom/search?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=1300`).then(r=>{
+        axios.get(`http://vps.andrejvysny.sk:8000/geom/search?lon=${lng}&lat=${lat}&radius=1100`).then(r=>{
 
             setSearchedCards(r.data.points)
             setMissingSearched(r.data.missing)
@@ -83,8 +93,7 @@ export default function HomeView() {
                         "type": "FeatureCollection",
                         "features":r.data.points
                     }}>
-                        <Layer{...layerHeatmap}/>
-                        <Layer{...layerPlaces}/>
+                        <Layer{...layerPlacesSearch}/>
                     </Source>
                     <Source type="geojson" data={data}>
                         <Layer
@@ -96,16 +105,24 @@ export default function HomeView() {
                             }}
                         />
                     </Source>
-                    <Marker longitude={e.lngLat.lng} latitude={e.lngLat.lat}/>
+                    <Marker longitude={lng} latitude={lat}/>
                 </>
             );
         })
-        
-
-        
     }
 
 
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => search(position.coords.longitude,position.coords.latitude));
+
+
+        axios.get("http://vps.andrejvysny.sk:8000/geom/all").then(r=>{
+
+
+            setAll( r.data);
+        })
+
+        }, []);
     return (
         <>
             <div className="options">
@@ -113,7 +130,7 @@ export default function HomeView() {
             </div>
             <div css={map_css}>
                 <Map
-                    onClick={e=>click(e)}
+                    onClick={e=>search(e.lngLat.lng,e.lngLat.lat)}
                     mapStyle={config.mapbox.style}
                     mapboxAccessToken={config.mapbox.access_token}
                     initialViewState={{
@@ -121,15 +138,21 @@ export default function HomeView() {
                         latitude: 48.71395,
                         zoom: 14
                     }}
-                    interactive={true}
                 >
-
                     {marker}
 
+                    <RenderCondition condition={all !== null}>
+                        <Source id="all-data" type="geojson" data={{
+                            "type": "FeatureCollection",
+                            "features": all
+                        }}>
+                            <Layer{...layerHeatmap}/>
+                            <Layer{...layerPlaces}/>
+                        </Source>
+                    </RenderCondition>
                 </Map>
             </div>
             <div css={sidebar_css}>
-
                 <Sidebar cards={searchedCards} missing={missingSearched}/>
             </div>
         </>

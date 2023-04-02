@@ -46,14 +46,14 @@ function Sidebar({cards, missing}) {
                                 <h2 className='in_fifteen'>In 15 minutes you will get here:</h2>
                             </div>
                             <div style={{height: '45vh', overflowY:'scroll'}}>
-                                {cards?.map((point,index)=><Card key={index} name={point?.properties?.name ?? "No name"} />)}
+                                {cards?.map((point,index)=><Card key={index} color={point?.properties?.color ?? 'black'} name={point?.properties?.name ?? "No name"} />)}
                             </div>
 
                             <div className='in_fifteen_wrapper'>
                                 <h2 className='in_fifteen'>Outside of 15 mins distance:</h2>
                             </div>
                             <div style={{height: '35vh', overflowY:'scroll'}}>
-                                {missing?.map((point,index)=><CardMissing key={index} name={point?.properties?.name ?? "No name"} />)}
+                                {missing?.map((point,index)=><CardMissing key={index} color={point?.properties?.color ?? 'black'}  name={point?.properties?.name ?? "No name"} />)}
                             </div>
 
 
