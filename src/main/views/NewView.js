@@ -55,12 +55,16 @@ export default function NewView() {
         axios.post("http://vps.andrejvysny.sk:8000/ai/predict",{
             "aminity" : [
                 {
-                    "name" : "Green place",
-                    "count" : 10
+                    "name" : "School",
+                    "count" : 2
                 },
                 {
-                    "name" : "Job",
-                    "count" : 10
+                    "name" : "Hospital",
+                    "count" : 1
+                },
+                {
+                    "name" : "Drug store",
+                    "count" : 2
                 }
             ],
             "radius" : 11

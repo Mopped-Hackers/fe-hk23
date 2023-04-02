@@ -114,22 +114,24 @@ export default function HomeView() {
     }
 
 
-    axios.get(`http://vps.andrejvysny.sk:8000/geom/all`).then(r=>{
 
-        setAll(
-            <>
-                <Source id="my-data_plaves" type="geojson" data={{
-                    "type": "FeatureCollection",
-                    "features":r.data
-                }}>
-                    <Layer{...layerPlaces}/>
-                </Source>
-            </>
-        );
-    })
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => search(position.coords.longitude,position.coords.latitude));
+
+        axios.get(`http://vps.andrejvysny.sk:8000/geom/all`).then(r=>{
+
+            setAll(
+                <>
+                    <Source id="my-data_plaves" type="geojson" data={{
+                        "type": "FeatureCollection",
+                        "features":r.data
+                    }}>
+                        <Layer{...layerPlaces}/>
+                    </Source>
+                </>
+            );
+        })
         }, []);
     return (
         <>
@@ -146,8 +148,10 @@ export default function HomeView() {
                         pitch: 45
                     }}
                 >
-                    {marker}
+
                     {all}
+                    {marker}
+
 
                 </Map>
             </div>
