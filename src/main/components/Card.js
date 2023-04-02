@@ -5,9 +5,9 @@ import OrangeCheck from "/src/assets/icons/orange-check.svg"
 
 function Card({name,address,distance,duration, color,lng,lat}) {
     return (
-        <div className="card" style={{borderColor: color, borderWidth: 5}}>
+        <div className="card" style={{borderWidth: 2}}>
             <div className='card_content_wapper'>
-            <h1>{name}</h1>
+            <span className='label'></span> <h1>{name}</h1>
             <p>{address}</p>
             <div className='card_metrics'>
                 <div className='dis_dur_wrapper'>

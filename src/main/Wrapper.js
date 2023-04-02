@@ -35,6 +35,7 @@ function Wrapper() {
             <div style={{position:"fixed", top: 20,left:20,fontSize:40,zIndex:1000, padding:10, borderRadius: 10,backgroundColor: "white",color: score>50 ? "green" : "orange", fontWeight: "bold"}}>
                 {score}%
             </div>
+
             <ToastContainer
                 position={"top-right"}
                 autoClose={3500}

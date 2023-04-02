@@ -10,6 +10,7 @@ import RenderCondition from "../../core/helpers/RenderCondition";
 import { Link } from "react-router-dom";
 import Arrow from "/src/assets/icons/arrow.svg"
 import Thumb from "/src/assets/icons/thumb.svg"
+import Nav from "../components/Nav";
 
 
 
@@ -20,6 +21,9 @@ export default function VoteView() {
     const [data, setData] = useState(null)
 
     const [voted, setVoted] = useState(false)
+    const [yes,setYes] =useState(0);
+    const [no,setNo] =useState(0);
+
     const [currentPoint, setCurrentPoint] = useState(null);
 
     useEffect(() => {
@@ -42,7 +46,14 @@ export default function VoteView() {
     }, []);
 
 
-    const click = point => {
+    const click = point =>{
+
+        if (point?.properties?.fid){
+            axios.get("http://vps.andrejvysny.sk:8000/geom/score/" + point.properties.fid).then(r=>{
+                console.log(r);
+            });
+        }
+
         setCurrentPoint(point);
         console.log(point);
     }
@@ -75,7 +86,7 @@ export default function VoteView() {
                     initialViewState={{
                         longitude: 21.25808,
                         latitude: 48.71395,
-                        zoom: 14
+                        zoom: 13
                     }}
                 >
                     {markers}

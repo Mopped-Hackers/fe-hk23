@@ -6,6 +6,7 @@ import * as turf from "@turf/turf";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import RenderCondition from "../../core/helpers/RenderCondition";
+import Nav from "../components/Nav";
 
 
 export default function HomeView() {
@@ -14,7 +15,6 @@ export default function HomeView() {
     const [searchedCards,setSearchedCards] = useState(null);
     const [missingSearched,setMissingSearched] = useState(null);
     const [all,setAll] = useState(null);
-    const [heatmap, setHeatmap] = useState('none');
     const {map_css, sidebar_css} = styles();
     const layerPlacesSearch = {
         'id': 'places',
@@ -45,34 +45,6 @@ export default function HomeView() {
         }
     };
 
-    const layerHeatmap = {
-        'id': 'heatmap',
-        'type': 'heatmap',
-        'source': 'points',
-        'layout': {
-            'visibility': heatmap
-        },
-        'paint': {
-            'heatmap-color': [
-                'interpolate',
-                ['linear'],
-                ['heatmap-density'],
-                0, 'rgba(29,178,24,0)',
-                0.1, 'rgba(255,196,0,0.4)',
-                1, 'rgba(255,61,2,0.7)',
-            ],
-            'heatmap-radius': 40,
-        }
-    };
-
-
-    const heatmapShow = ()=>{
-        if (heatmap === 'none'){
-            setHeatmap('visible');
-        }else{
-            setHeatmap('none');
-        }
-    }
     const search = (lng,lat)=>{
 
         const data = {
@@ -119,23 +91,20 @@ export default function HomeView() {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => search(position.coords.longitude,position.coords.latitude));
 
-        axios.get(`http://vps.andrejvysny.sk:8000/geom/all`).then(r=>{
-
-            setAll(
-                <>
-                    <Source id="my-data_plaves" type="geojson" data={{
-                        "type": "FeatureCollection",
-                        "features":r.data
-                    }}>
-                        <Layer{...layerPlaces}/>
-                    </Source>
-                </>
-            );
-        })
         }, []);
     return (
         <>
-
+            <div style={{fontWeight:"bold",position:"fixed", bottom: 20,left:20,fontSize:18,zIndex:1000, padding:10, borderRadius: 10,backgroundColor: "grey",color: "black"}}>
+                <div style={{color:"red"}}>Culture</div>
+                <div style={{color:"white"}}>Drug store</div>
+                <div style={{color:"green"}}>Green place</div>
+                <div style={{color:"yellow"}}>Hospital</div>
+                <div style={{color:"purple"}}>Job</div>
+                <div style={{color:"blue"}}>School</div>
+                <div style={{color:"orange"}}>Shop</div>
+                <div style={{color:"pink"}}>Sport</div>
+                <div style={{color:"black"}}>Transport</div>
+            </div>
             <div css={map_css}>
                 <Map
                     onClick={e=>search(e.lngLat.lng,e.lngLat.lat)}
@@ -149,13 +118,13 @@ export default function HomeView() {
                     }}
                 >
 
-                    {all}
                     {marker}
 
 
                 </Map>
             </div>
             <div css={sidebar_css}>
+                <Nav/>
                 <Sidebar cards={searchedCards} missing={missingSearched} setCards={setSearchedCards} setMissing={setMissingSearched}/>
             </div>
         </>
