@@ -282,6 +282,14 @@ body{
 
   /* VOTING */
 .vote_bar {
+  .btn {
+    width: 100%;
+    height: 5vw;
+    color: white;
+    img {
+      margin-right: 1vw;
+    }
+  }
   width: 25vw;
   .in_fifteen_wrapper {
     margin-top: 3vw;
@@ -326,14 +334,7 @@ body{
   }
 }
 
-.btn {
-  width: 100%;
-  height: 5vw;
-  color: white;
-  img {
-    margin-right: 1vw;
-  }
-}
+
 
 .btn:first-of-type {
   margin-bottom: 1vw;
@@ -354,3 +355,20 @@ body{
 .opinion {
   margin-top: 3vw;
 }
+
+
+.labelWrapper {
+  display: flex;
+  margin-bottom: 0.6vw;
+  margin-top: 0.8vw;
+
+  height: 1vw;
+  .label {
+    width: 1vw;
+    height: 1vw;
+    border-radius: 100px;
+    background-color: yellow;
+    margin-right: 1vw;
+  }
+}
+
