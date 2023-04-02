@@ -33,14 +33,14 @@ function Sidebar({cards, missing,setCards,setMissing}) {
                         <div className='vehicleType center'><p>Bicycle</p></div>
                     </div>
                 </RenderCondition>
-                <RenderCondition condition={active === "search"}>
+                {/* <RenderCondition condition={active === "search"}>
                     <div className="search">
                         <div className="searchbar, center">
                             <input type="text" placeholder="Search" name="Placeholder"/>
                         </div>
 
                     </div>
-                </RenderCondition>
+                </RenderCondition> */}
 
                <RenderCondition condition={active === "categories"}>
 

@@ -123,7 +123,7 @@ export default function VoteView() {
                                 <p className='votingAdress'>{currentPoint?.properties.addressline}</p>
                             </a>
 
-                            <p className="votingCoordinates">%Impact - {impact}</p>
+                            <p className="votingCoordinates">%Impact - {impact.toFixed(2)}%</p>
                             <p className="votingInfo">Poloha - {currentPoint?.geometry.coordinates.toString()}</p>
 
                             <RenderCondition condition={!voted}>
