@@ -3,12 +3,12 @@ import Footsteps from "/src/assets/icons/footsteps.svg"
 import OrangeCheck from "/src/assets/icons/orange-check.svg"
 
 
-function Card({name,address,distance,duration, color,lng,lat}) {
+function Card({name,type,distance,duration, color,lng,lat}) {
     return (
         <div className="card" style={{borderWidth: 2}}>
             <div className='card_content_wapper'>
             <span className='label'></span> <h1>{name}</h1>
-            <p>{address}</p>
+            <p style={{fontWeight: "bold",color: color}}>{type}</p>
             <div className='card_metrics'>
                 <div className='dis_dur_wrapper'>
                     <img src={Footsteps}></img>

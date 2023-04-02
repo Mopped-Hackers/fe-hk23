@@ -85,7 +85,7 @@ export default function NewView() {
 
     useEffect(()=>{
 
-        axios.get(`http://vps.andrejvysny.sk:8000/geom/all`).then(r=>{
+        axios.get(`http://vps.andrejvysny.sk:8000/geom/all?build=1`).then(r=>{
 
             setAll(
                 <>
@@ -106,12 +106,28 @@ export default function NewView() {
     const saveBuild = ()=>{
 
         build.map(point=>{
+
+
+            const obj = {
+                "fid": point.properties.fid,
+                "aminity": point.properties.aminity,
+                "lat": point.geometry.coordinates[1],
+                "lon": point.geometry.coordinates[0],
+            }
+
+            axios.post("http://vps.andrejvysny.sk:8000/geom/add",obj).then(r=>{
+
+            });
+
+            console.log(point);
             //axios.post()
         })
 
     }
     const buildAction=()=>{
 
+        clear();
+        setManual(false);
         axios.post("http://vps.andrejvysny.sk:8000/ai/predict",{
             "aminity" : [
                 {
@@ -156,17 +172,22 @@ export default function NewView() {
         if (manual&&lng&&lat){
 
             const obj = {
-                "fid": "",
-                "aminity": "x",
-                "lat": 0,
-                "lon": 0,
-                "addressline": "x",
-                "type": "x",
-                "info": "{'x':'a'}"
+                "fid": e.target[0].value,
+                "aminity": e.target[1].value,
+                "lat": lat,
+                "lon": lng,
             }
+
+            axios.post("http://vps.andrejvysny.sk:8000/geom/add",obj).then(r=>{
+
+                window.location.reload()
+
+                clear();
+            })
+
         }
 
-        console.log(e.target);
+
     }
 
     const manualMarker = (lng,lat)=>{
