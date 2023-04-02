@@ -64,6 +64,7 @@ export default function VoteView() {
             
         }
 
+        setVoted(false)
         setCurrentPoint(point);
         console.log(point);
     }
@@ -122,8 +123,8 @@ export default function VoteView() {
                                 <p className='votingAdress'>{currentPoint?.properties.addressline}</p>
                             </a>
 
-                            <p className="votingCoordinates">Poloha - {currentPoint?.geometry.coordinates.toString()}</p>
-                            <p className="votingInfo">%Impact - {impact}</p>
+                            <p className="votingCoordinates">%Impact - {impact}</p>
+                            <p className="votingInfo">Poloha - {currentPoint?.geometry.coordinates.toString()}</p>
 
                             <RenderCondition condition={!voted}>
                                 <p className='opinion'>Express your opinion</p>
