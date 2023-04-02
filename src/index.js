@@ -6,6 +6,7 @@ import './assets/styles/Global.scss';
 import {api_config} from "./config";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Wrapper from "./main/Wrapper";
+import DataProvider from "./core/providers/DataProvider";
 
 axios.defaults.baseURL = api_config.host;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -13,7 +14,10 @@ axios.defaults.headers.common['Accept'] = 'application/json';
 const root = createRoot(document.getElementById('wrapper'));
 root.render(
     <React.StrictMode>
+        <DataProvider>
+
         <Wrapper/>
+        </DataProvider>
     </React.StrictMode>
 );
 

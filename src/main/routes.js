@@ -3,6 +3,7 @@ export const routes = {
 
     home: "/",
     vote: "/vote",
+    newview: "/new",
 
 
 

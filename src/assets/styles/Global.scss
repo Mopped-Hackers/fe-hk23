@@ -144,6 +144,10 @@ body{
   white-space: nowrap;
 }
 
+::-webkit-scrollbar {
+  width: 2px;
+}
+
 /* .divider {
   width: 25vw;
   background-color: #EAECEF;

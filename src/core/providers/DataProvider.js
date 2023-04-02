@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
+import axios from "axios";
 
 export const DataProviderContext = React.createContext(null);
 
@@ -8,15 +9,15 @@ export function useDataProvider() {
 
 function DataProvider({children}) {
 
-    const [data, setData] = useState();
+    const [score, setScore] = useState(0);
 
     useEffect(() => {
-
+        axios.get("http://vps.andrejvysny.sk:8000/ai/default-town").then(r=>{setScore(r.data);        });
     }, []);
 
 
     const DATA = {
-        data, setData
+        score, setScore
     };
 
     return (
