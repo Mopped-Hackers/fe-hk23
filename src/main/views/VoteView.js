@@ -28,6 +28,16 @@ export default function VoteView() {
 
     const [currentPoint, setCurrentPoint] = useState(null);
 
+    const [filter, setFilter] = useState([]);
+
+    const filterCategory = (category)=>{
+        if (filter.includes(category)){
+            setFilter(f=>f.filter(o=>o!==category));
+        }else{
+            setFilter(f=>[...f,category]);
+        }
+    }
+
     useEffect(() => {
 
         axios.get("http://vps.andrejvysny.sk:8000/geom/all?vote=1").then(r => {
@@ -105,7 +115,7 @@ export default function VoteView() {
             <div className="vote_bar">
                 <div className="content">
 
-                    <Nav/>
+                    <Nav filter={filter} setFilter={filterCategory}/>
                     <div className='tab_switches_wrapper'> </div>
                     <div className='in_fifteen_wrapper'>
                         <RenderCondition condition={currentPoint !== null}>
