@@ -60,7 +60,7 @@ export default function NewView() {
                 },
                 {
                     "name" : "Hospital",
-                    "count" : 1
+                    "count" : 2
                 },
                 {
                     "name" : "Drug store",
