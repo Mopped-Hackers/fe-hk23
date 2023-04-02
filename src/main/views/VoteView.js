@@ -61,7 +61,12 @@ export default function VoteView() {
                 </Map>
             </div>
             <div css={sidebar_css}>
-
+            <div className="content">
+                            <div className='in_fifteen_wrapper'>
+                                <h2 className='in_fifteen'>In 15 minutes you will get here:</h2>
+                            </div>
+                           
+                    </div>
                 <h1 className="text-center my-4">Voting!</h1>
                 <RenderCondition condition={currentPoint !== null}>
                     <h1>{currentPoint?.properties.name}</h1>
