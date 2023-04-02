@@ -21,8 +21,10 @@ export default function VoteView() {
     const [data, setData] = useState(null)
 
     const [voted, setVoted] = useState(false)
-    const [yes,setYes] =useState(0);
-    const [no,setNo] =useState(0);
+    const [yes, setYes] = useState(0);
+    const [no, setNo] = useState(0);
+    const [impact, setImpact] = useState(0)
+    const [def, setDefault] = useState(0)
 
     const [currentPoint, setCurrentPoint] = useState(null);
 
@@ -46,18 +48,25 @@ export default function VoteView() {
     }, []);
 
 
-    const click = point =>{
+    const click = point => {
 
-        if (point?.properties?.fid){
-            axios.get("http://vps.andrejvysny.sk:8000/geom/score/" + point.properties.fid).then(r=>{
+        if (point?.properties?.fid) {
+            axios.get("http://vps.andrejvysny.sk:8000/geom/score/" + point.properties.fid).then(r => {
                 console.log(r);
             });
+
+            axios.get("http://vps.andrejvysny.sk:8000/ai/default-town").then(r => { setDefault(r.data); });
+            axios.post("http://vps.andrejvysny.sk:8000/ai/calculate/", {
+                points: [
+                    { lat: point.properties.lat, lon: point.properties.lon },
+                ]
+            }).then(r => { setImpact( (r.data-51.5)); });
+            
         }
 
         setCurrentPoint(point);
         console.log(point);
     }
-
 
     const callOpinion = (plus) => {
         console.log(currentPoint)
@@ -114,7 +123,7 @@ export default function VoteView() {
                             </a>
 
                             <p className="votingCoordinates">Poloha - {currentPoint?.geometry.coordinates.toString()}</p>
-                            <p className="votingInfo"> {currentPoint?.properties.info}</p>
+                            <p className="votingInfo">%Impact - {impact}</p>
 
                             <RenderCondition condition={!voted}>
                                 <p className='opinion'>Express your opinion</p>
