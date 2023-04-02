@@ -18,6 +18,23 @@ export default function NewView() {
     const [heatmap, setHeatmap] = useState('none');
     const [build,setBuild] = useState([]);
 
+    const [marker,setMarker] = useState(null);
+
+    const [lng,setLng] = useState(null);
+    const [lat,setLat] = useState(null);
+
+
+    const [categories,setCategories] = useState([])
+
+    useEffect(()=>{
+        axios.get("http://vps.andrejvysny.sk:8000/geom/categories").then(r=>{
+            setCategories(r.data);
+        })
+    },[]);
+
+    const [manual,setManual] = useState(false);
+
+
     const layerPlacesSearch = {
         'id': 'places',
         'type': 'circle',
@@ -87,7 +104,11 @@ export default function NewView() {
     },[heatmap]);
 
     const saveBuild = ()=>{
-        axios
+
+        build.map(point=>{
+            //axios.post()
+        })
+
     }
     const buildAction=()=>{
 
@@ -113,8 +134,8 @@ export default function NewView() {
             setScore(r.data?.score);
             setBuild(r.data.points);
             setMarkers(
-              r.data.points.map(point=>{
-                 return <Marker longitude={point.geometry.coordinates[0]} latitude={point.geometry.coordinates[1]} color={point.properties.color}/>
+              r.data.points.map((point,index)=>{
+                 return <Marker key={index} longitude={point.geometry.coordinates[0]} latitude={point.geometry.coordinates[1]} color={point.properties.color}/>
               })
             )
             console.log(r);
@@ -124,7 +145,37 @@ export default function NewView() {
     const clear = ()=>{
         setBuild([]);
         setMarkers(null);
+        setMarker(null);
+        setLng(null);
+        setLat(null);
         axios.get("http://vps.andrejvysny.sk:8000/ai/default-town").then(r=>{setScore(r.data);        });
+    }
+
+    const handleForm = e =>{
+        e.preventDefault();
+        if (manual&&lng&&lat){
+
+            const obj = {
+                "fid": "",
+                "aminity": "x",
+                "lat": 0,
+                "lon": 0,
+                "addressline": "x",
+                "type": "x",
+                "info": "{'x':'a'}"
+            }
+        }
+
+        console.log(e.target);
+    }
+
+    const manualMarker = (lng,lat)=>{
+        if (manual){
+            setLng(lng);
+            setLat(lat);
+            setMarker(<Marker longitude={lng} latitude={lat}/>);
+        }
+
     }
 
     return (
@@ -142,6 +193,7 @@ export default function NewView() {
             </div>
             <div css={map_css}>
                 <Map
+                    onClick={e=>manualMarker(e.lngLat.lng,e.lngLat.lat)}
                     mapStyle={config.mapbox.style}
                     mapboxAccessToken={config.mapbox.access_token}
                     initialViewState={{
@@ -153,6 +205,7 @@ export default function NewView() {
                 >
                     {all}
                     {markers}
+                    {marker}
 
                 </Map>
             </div>
@@ -160,11 +213,32 @@ export default function NewView() {
 
                 <Nav/>
 
-                <button className="btn btn-primary" onClick={()=>buildAction()}>Build</button>
+                <button className="btn btn-primary" onClick={()=>buildAction()}>Auto build</button>
+                <button className="btn btn-primary" onClick={()=>{clear();setManual(m=>!m)}}>Manual build</button>
                 <button className="btn btn-primary" onClick={()=>heatmapShow()}>Heatmap</button>
 
+                <RenderCondition condition={manual}>
 
-                <RenderCondition condition={build.length > 0}>
+                    <form className="manual_form" onSubmit={e=>handleForm(e)}>
+
+
+                        <input type="text" placeholder="Name" name="fid"/>
+
+                        <select name="aminity">
+                            {categories.map(cat=><option key={cat} value={cat}>{cat}</option>)}
+                        </select>
+
+
+                        <div>Lng: {lng}</div>
+                        <div>Lat: {lat}</div>
+
+                        <button className="btn btn-warning" onClick={e=>{e.preventDefault();clear()}}>Clear</button>
+                        <button className="btn btn-success" type="submit">Save</button>
+
+                    </form>
+                </RenderCondition>
+
+                <RenderCondition condition={build.length > 0 && !manual}>
                     <button className="btn btn-warning" onClick={()=>clear()}>Clear</button>
                     <button className="btn btn-success" onClick={()=>saveBuild()}>Save</button>
                 </RenderCondition>

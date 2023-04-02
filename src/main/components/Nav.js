@@ -26,7 +26,7 @@ function Nav(props) {
 
             <div className="categories">
                 <div className='categorieSlider'>
-                    {categories.map(cat=><div className='category center'><p>{cat}</p></div>)}
+                    {categories.map(cat=><div key={cat} className='category center'><p>{cat}</p></div>)}
                 </div>
             </div>
         </nav>
