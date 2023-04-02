@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import Card from "./Card";
 import RenderCondition from "../../core/helpers/RenderCondition";
+import CardMissing from "./CardMissing";
 
-function Sidebar(props) {
+function Sidebar({cards, missing}) {
 
     const [active,setActive] = useState("search")
     return (
@@ -28,9 +29,16 @@ function Sidebar(props) {
                             <input type="text" name="Placeholder"/>
                         </div>
                         <div className="content">
-                            <Card name="Name" address="adresa" distance="2km" duration="10min"/>
-                            <Card name="Name 2" address="adresa" distance="1km" duration="13min"/>
-                            <Card name="Name 3" address="adresa" distance="1km" duration="10min"/>
+
+                            <div style={{height: '45vh', overflowY:'scroll'}}>
+                                {cards?.map((point,index)=><Card key={index} name={point?.properties?.name ?? "No name"} />)}
+                            </div>
+
+                            <h3>Missing</h3>
+                            <div style={{height: '35vh', overflowY:'scroll'}}>
+                                {missing?.map((point,index)=><CardMissing key={index} name={point?.properties?.name ?? "No name"} />)}
+                            </div>
+
                         </div>
                     </div>
                 </RenderCondition>

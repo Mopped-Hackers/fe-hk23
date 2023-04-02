@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {css} from "@emotion/react";
-import config from "../../config";
+import config, {theme} from "../../config";
 import {getData} from "../routes";
 import Map, {Layer, Marker, Source} from "react-map-gl";
 import * as turf from "@turf/turf";
 import Sidebar from "../components/Sidebar";
+import RenderCondition from "../../core/helpers/RenderCondition";
+import axios from "axios";
+import Card from "../components/Card";
 
 
 export default function HomeView() {
 
     const [marker,setMarker] = useState(null);
+    const [searchedCards,setSearchedCards] = useState(null);
+    const [missingSearched,setMissingSearched] = useState(null);
     const [heatmap, setHeatmap] = useState('none');
     const {map_css, sidebar_css} = styles();
 
@@ -21,10 +26,10 @@ export default function HomeView() {
             'visibility': 'visible'
         },
         'paint': {
-            'circle-color': 'rgb(35,0,4)',
+            'circle-color': 'rgb(0,0,0)',
             'circle-stroke-color': 'white',
-            'circle-stroke-width': 1,
-            'circle-radius': 4
+            'circle-stroke-width': 3,
+            'circle-radius': 8
         }
     };
 
@@ -58,29 +63,45 @@ export default function HomeView() {
     }
     const click = e=>{
 
+
+
         const data = {
             "type": "FeatureCollection",
             "features": [
                 turf.circle([e.lngLat.lng,e.lngLat.lat], 1300, { steps: 50, units: "meters" })
             ]
         }
+
+        axios.get(`http://vps.andrejvysny.sk:8000/geom/search?lon=${e.lngLat.lng}&lat=${e.lngLat.lat}&radius=1300`).then(r=>{
+
+            setSearchedCards(r.data.points)
+            setMissingSearched(r.data.missing)
+
+            setMarker(
+                <>
+                    <Source id="my-data" type="geojson" data={{
+                        "type": "FeatureCollection",
+                        "features":r.data.points
+                    }}>
+                        <Layer{...layerHeatmap}/>
+                        <Layer{...layerPlaces}/>
+                    </Source>
+                    <Source type="geojson" data={data}>
+                        <Layer
+                            id="data"
+                            type="fill"
+                            paint={{
+                                "fill-color": "#088",
+                                "fill-opacity": 0.4,
+                            }}
+                        />
+                    </Source>
+                    <Marker longitude={e.lngLat.lng} latitude={e.lngLat.lat}/>
+                </>
+            );
+        })
         
-        setMarker(
-            <>
-                <Source type="geojson" data={data}>
-                    <Layer
-                        id="data"
-                        type="fill"
-                        paint={{
-                            "fill-color": "#088",
-                            "fill-opacity": 0.4,
-                        }}
-                    />
-                </Source>
-                <Marker longitude={e.lngLat.lng} latitude={e.lngLat.lat}/>
-            </>
-           
-        );
+
         
     }
 
@@ -100,22 +121,16 @@ export default function HomeView() {
                         latitude: 48.71395,
                         zoom: 14
                     }}
+                    interactive={true}
                 >
-                    
 
                     {marker}
-                    
-                    <Source id="my-data" type="geojson" data={getData()}>
 
-                        <Layer{...layerHeatmap}/>
-
-                        <Layer{...layerPlaces}/>
-                    </Source>
                 </Map>
             </div>
             <div css={sidebar_css}>
 
-                <Sidebar/>
+                <Sidebar cards={searchedCards} missing={missingSearched}/>
             </div>
         </>
     );

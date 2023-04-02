@@ -8,6 +8,7 @@ import {version} from "../config";
 import {routes} from "./routes";
 import HomeView from "./views/HomeView";
 import {System} from "../core/providers/System";
+import VoteView from "./views/VoteView";
 
 function Wrapper() {
 
@@ -38,6 +39,7 @@ function Wrapper() {
                             <Routes>
 
                                 <Route path={routes.home} element={<HomeView />}/>
+                                <Route path={routes.vote} element={<VoteView />}/>
                                 <Route path="*" element={<NotFoundView />}/>
 
                             </Routes>
