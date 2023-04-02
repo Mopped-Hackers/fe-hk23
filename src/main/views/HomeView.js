@@ -26,8 +26,8 @@ export default function HomeView() {
         'paint': {
             'circle-color': ['get','color'],
             'circle-stroke-color': 'black',
-            'circle-stroke-width': 3,
-            'circle-radius': 8
+            'circle-stroke-width': 2,
+            'circle-radius': 6
         }
     };
     const layerPlaces = {
@@ -87,6 +87,8 @@ export default function HomeView() {
             setSearchedCards(r.data.points)
             setMissingSearched(r.data.missing)
 
+            console.log(r.data);
+
             setMarker(
                 <>
                     <Source id="my-data" type="geojson" data={{
@@ -112,22 +114,26 @@ export default function HomeView() {
     }
 
 
+    axios.get(`http://vps.andrejvysny.sk:8000/geom/all`).then(r=>{
+
+        setAll(
+            <>
+                <Source id="my-data_plaves" type="geojson" data={{
+                    "type": "FeatureCollection",
+                    "features":r.data
+                }}>
+                    <Layer{...layerPlaces}/>
+                </Source>
+            </>
+        );
+    })
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => search(position.coords.longitude,position.coords.latitude));
-
-
-        axios.get("http://vps.andrejvysny.sk:8000/geom/all").then(r=>{
-
-
-            setAll( r.data);
-        })
-
         }, []);
     return (
         <>
-            <div className="options">
-                <button onClick={()=>heatmapShow()}>Heatmap</button>
-            </div>
+
             <div css={map_css}>
                 <Map
                     onClick={e=>search(e.lngLat.lng,e.lngLat.lat)}
@@ -136,24 +142,17 @@ export default function HomeView() {
                     initialViewState={{
                         longitude: 21.25808,
                         latitude: 48.71395,
-                        zoom: 14
+                        zoom: 14,
+                        pitch: 45
                     }}
                 >
                     {marker}
+                    {all}
 
-                    <RenderCondition condition={all !== null}>
-                        <Source id="all-data" type="geojson" data={{
-                            "type": "FeatureCollection",
-                            "features": all
-                        }}>
-                            <Layer{...layerHeatmap}/>
-                            <Layer{...layerPlaces}/>
-                        </Source>
-                    </RenderCondition>
                 </Map>
             </div>
             <div css={sidebar_css}>
-                <Sidebar cards={searchedCards} missing={missingSearched}/>
+                <Sidebar cards={searchedCards} missing={missingSearched} setCards={setSearchedCards} setMissing={setMissingSearched}/>
             </div>
         </>
     );
