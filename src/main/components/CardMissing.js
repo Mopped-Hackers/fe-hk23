@@ -7,7 +7,7 @@ function CardMissing({name}) {
     return (
         <div className="card bg-danger">
             <div className='card_content_wapper'>
-                <h1 className="m-0"><strong>{name}</strong></h1>
+                <p className="m-0" ><strong>{name}</strong></p>
             </div>
         </div>
     );

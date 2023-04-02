@@ -94,7 +94,7 @@ export default function HomeView() {
         }, []);
     return (
         <>
-            <div style={{fontWeight:"bold",position:"fixed", bottom: 20,left:20,fontSize:18,zIndex:1000, padding:10, borderRadius: 10,backgroundColor: "grey",color: "black"}}>
+            <div style={{fontWeight:"light",position:"fixed", bottom: 20,left:20,fontSize:18,zIndex:1000, padding:10, borderRadius: 10,backgroundColor: "grey",color: "black"}}>
                 <div style={{color:"red"}}>Culture</div>
                 <div style={{color:"white"}}>Drug store</div>
                 <div style={{color:"green"}}>Green place</div>
