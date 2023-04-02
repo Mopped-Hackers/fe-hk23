@@ -8,6 +8,9 @@ import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import RenderCondition from "../../core/helpers/RenderCondition";
 import {Link} from "react-router-dom";
+import Arrow from "/src/assets/icons/arrow.svg"
+import Thumb from "/src/assets/icons/thumb.svg"
+
 
 
 export default function VoteView() {
@@ -48,7 +51,7 @@ export default function VoteView() {
 
     return (
         <>
-            <div css={map_css}>
+            <div  css={map_css}>
                 <Map
                     mapStyle={config.mapbox.style}
                     mapboxAccessToken={config.mapbox.access_token}
@@ -61,26 +64,31 @@ export default function VoteView() {
                     {markers}
                 </Map>
             </div>
-            <div css={sidebar_css}>
+            <div className="vote_bar">
             <div className="content">
-                <Link to={routes.home}>Back</Link>
+
+            <div className='tab_switches_wrapper'>
+                <div className="tab_switches">
+                  <div className='back'><Link className="link" to={routes.home}><img src={Arrow}></img>Go back to default screen</Link></div> 
+                </div>
+            </div>
+                <div className='tab_switches_wrapper'> </div>
                             <div className='in_fifteen_wrapper'>
-                                <h2 className='in_fifteen'>In 15 minutes you will get here:</h2>
+                            <RenderCondition condition={currentPoint !== null}>
+                                <h1 className='votingName'>{currentPoint?.properties.name}</h1>
+                                <p className='votingAdress'>{currentPoint?.properties.addressline}</p>
+                                <p className="votingCoordinates">{currentPoint?.geometry.coordinates.toString()}</p>
+                                <p className="votingInfo"> {currentPoint?.properties.info}</p>
+
+                                <p className='opinion'>Express your opinion</p>
+                                <div className="voting_buttons">
+                                    <div className="yes center btn"><img src={Thumb}></img>I agree</div>
+                                    <div className="no center btn"><img className="thumbRotate"src={Thumb}></img>I disagree</div>
+                                </div>
+                            </RenderCondition>
                             </div>
-
                     </div>
-                <h1 className="text-center my-4">Voting!</h1>
-                <RenderCondition condition={currentPoint !== null}>
-                    <h1>{currentPoint?.properties.name}</h1>
-                    <p>{currentPoint?.properties.addressline}</p>
-                    <p>{currentPoint?.geometry.coordinates.toString()}</p>
-
-                    <p>{currentPoint?.properties.info}</p>
-                    <div className="voting_buttons">
-                        <button className="yes btn-success btn">Yes!</button>
-                        <button className="no btn-danger btn">No!</button>
-                    </div>
-                </RenderCondition>
+                
             </div>
         </>
     );
