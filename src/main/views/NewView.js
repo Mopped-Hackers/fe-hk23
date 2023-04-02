@@ -33,8 +33,16 @@ export default function NewView() {
     const [shops, setShops] = useState(0);
     const [sports, setSports] = useState(0);
     const [transports, setTransports] = useState(0);
+    const [categories, setCategories] = useState([]);
+    const [filter, setFilter] = useState([]);
 
-    const [categories, setCategories] = useState([])
+    const filterCategory = (category)=>{
+        if (filter.includes(category)){
+            setFilter(f=>f.filter(o=>o!==category));
+        }else{
+            setFilter(f=>[...f,category]);
+        }
+    }
 
     useEffect(() => {
         axios.get("http://vps.andrejvysny.sk:8000/geom/categories").then(r => {
@@ -112,7 +120,7 @@ export default function NewView() {
             );
         })
 
-    }, [heatmap]);
+    }, [heatmap, filter]);
 
     const saveBuild = () => {
 
@@ -279,7 +287,7 @@ export default function NewView() {
             </div>
             <div css={sidebar_css}>
 
-                <Nav />
+                <Nav filter={filter} setFilter={filterCategory} />
                 <div className='optionsNew mt-3'>
                     <button className="btn btn-primary" onClick={() => automaticProcess()}>Automatic build</button>
                     <button className="btn btn-primary" onClick={() => { clear(); setManual(m => !m); setAutomatic(false) }}>Manual build</button>

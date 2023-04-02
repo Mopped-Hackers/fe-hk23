@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import {routes} from "../routes";
 
-function Nav(props) {
+function Nav({filter,setFilter}) {
     const [categories,setCategories] = useState([])
 
     useEffect(()=>{
@@ -26,7 +26,7 @@ function Nav(props) {
 
             <div className="categories">
                 <div className='categorieSlider'>
-                    {categories.map(cat=><div key={cat} className='category center'><p>{cat}</p></div>)}
+                    {categories.map(cat=><div key={cat} onClick={e=>setFilter(cat)} className={'category center'} style={{border:  filter.includes(cat) ? " 1px solid blue" : "none"}}><p>{cat}</p></div>)}
                 </div>
             </div>
         </nav>

@@ -16,6 +16,18 @@ export default function HomeView() {
     const [missingSearched,setMissingSearched] = useState(null);
     const [all,setAll] = useState(null);
     const {map_css, sidebar_css} = styles();
+
+    const [filter, setFilter] = useState([]);
+
+    const filterCategory = (category)=>{
+        if (filter.includes(category)){
+            setFilter(f=>f.filter(o=>o!==category));
+        }else{
+            setFilter(f=>[...f,category]);
+        }
+    }
+
+
     const layerPlacesSearch = {
         'id': 'places',
         'type': 'circle',
@@ -54,7 +66,16 @@ export default function HomeView() {
             ]
         }
 
-        axios.get(`http://vps.andrejvysny.sk:8000/geom/search?lon=${lng}&lat=${lat}&radius=1100`).then(r=>{
+        var str = '';
+        for(var i = 0; i < filter.length; i++) {
+            str += '&category='+filter[i];
+            console.log(str);
+        }
+
+
+        console.log(str);
+
+        axios.get(`http://vps.andrejvysny.sk:8000/geom/search?lon=${lng}&lat=${lat}&radius=1100${str}`).then(r=>{
 
             setSearchedCards(r.data.points)
             setMissingSearched(r.data.missing)
@@ -124,7 +145,7 @@ export default function HomeView() {
                 </Map>
             </div>
             <div css={sidebar_css}>
-                <Nav/>
+                <Nav filter={filter} setFilter={filterCategory}/>
                 <Sidebar cards={searchedCards} missing={missingSearched} setCards={setSearchedCards} setMissing={setMissingSearched}/>
             </div>
         </>
